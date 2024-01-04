@@ -24,10 +24,10 @@ const NewGroup = ({groupMember, setIsGroup}) => {
         setIsImgUploading(true);
         const data = new FormData();
         data.append("file", pics);
-        data.append("upload_preset", "muts8jvf");
-        data.append("cloud_name", "def1ublz5");
+        data.append("upload_preset", "vz082orr");
+        data.append("cloud_name", "dwirien2h");
         
-        fetch("https://api.cloudinary.com/v1_1/def1ublz5/image/upload", {
+        fetch("https://api.cloudinary.com/v1_1/dwirien2h/image/upload", {
             method: "POST",
             body: data,
         })
@@ -35,7 +35,7 @@ const NewGroup = ({groupMember, setIsGroup}) => {
         .then((data) => {
             console.log(data);
             if (data) {
-                console.log("Uploading to cloudnery :: ",data);
+                console.log("Uploading to Cloudinary :: ",data);
                 setGroupImg(data.url.toString());
                 setIsImgUploading(false);
             } else {
