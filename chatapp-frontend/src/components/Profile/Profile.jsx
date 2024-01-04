@@ -37,10 +37,10 @@ const Profile = ({HandleCloseOpenProfile}) => {
     const uploadToCloudnary = (pics) => {
         const data = new FormData();
         data.append("file", pics);
-        data.append("upload_preset", "muts8jvf");
-        data.append("cloud_name", "def1ublz5");
+        data.append("upload_preset", "vz082orr");
+        data.append("cloud_name", "dwirien2h");
         
-        fetch("https://api.cloudinary.com/v1_1/def1ublz5/image/upload", {
+        fetch("https://api.cloudinary.com/v1_1/dwirien2h/image/upload", {
             method: "POST",
             body: data,
         })
