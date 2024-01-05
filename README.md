@@ -1,16 +1,15 @@
-# Realtime Chat Application
+# GuffGaff-Hub - Realtime Chat Application
 
 ## Introduction
 
-Welcome to the Realtime Chat Application! This project is a full-fledged messaging application with a user interface inspired by WhatsApp. It enables users to exchange messages individually or within groups, view user statuses, and supports image uploading. The project utilizes React for the frontend with Tailwind CSS for styling, and the backend is powered by Spring Boot, ensuring secure login using Spring Security with JWT-based authentication. Cloudinary is employed for image uploading and storage, while Redux and Thunk are used for state management in the frontend.
-
+Welcome to the GuffGaff Hub! This project is a full-fledged messaging application with a clean user interface. It enables users to exchange messages individually or within groups, view user statuses, and support image uploading. The project utilizes React for the front end with Tailwind CSS for styling, and the backend is powered by Spring Boot (JAVA), ensuring secure login using Spring Security with JWT-based authentication. Cloudinary is employed for image uploading and storage.
 ## Features
 
-- **Realtime Messaging:** Experience seamless, real-time messaging with instant message delivery.
+- **Realtime Messaging:** Experience seamless, real-time messaging with instant delivery.
 
 - **User Status:** Stay connected with friends by viewing their online or offline status.
 
-- **Group Creation:** Create groups for efficient group communication and collaboration.
+- **Group Creation:** Create groups for efficient communication and collaboration.
 
 - **Individual Messaging:** Send private messages to individuals for one-on-one communication.
 
@@ -25,8 +24,7 @@ Welcome to the Realtime Chat Application! This project is a full-fledged messagi
 - **Database:** MySQL
 - **Authentication:** Spring Security, JWT
 - **Image Upload:** Cloudinary
-- **State Management:** Redux, Thunk
-- **Other Tools and Tech** Telewind, mui, vscode, eclipse
+- **Other Tools and Tech** Intellij IDEA
 
 ## Getting Started
 
@@ -62,30 +60,27 @@ Welcome to the Realtime Chat Application! This project is a full-fledged messagi
      ```
 
 6. **Access the Application:**
-   Open your browser and visit `http://localhost:3000` to use the Realtime Chat Application.
+   Open your browser and visit `http://localhost:3000` to use the Application.
 
 7. **ScreenShots**
 
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/f12025f6-45cd-4cad-89cd-c655e5440f21)
+ ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/login.png)
     <br/>
 
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/7ceb93f7-0699-4832-b3de-5fa8324a2baf)
+ ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/landing.png)
 
    <br/>
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/fd7e4bfb-16ee-4b44-b740-5339afc8b10d)
-   
 
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/7952b2f4-b4e5-4c34-bda6-45d26a9179b6)
+![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/profile.png)
 
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/4256cf87-9382-4a88-8875-f1b6a922c2a0)
-
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/39532ef7-6937-420e-bd41-7d7767292f61)
-
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/68a7f004-183a-477b-98f1-ea2a587e91fe)
-
-   ![image](https://github.com/swapniltake1/Realtime-Chat-Application/assets/61576958/a9a7b06e-71dc-449b-b51e-de0986109fa8)
-
-
+   <br/>
+ ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/group.png)
+  <br/>
+  
+![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/chat.png)
+  <br/>
+  
+![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/logout.png)
 
 
 ## Contribution Guidelines
@@ -96,4 +91,4 @@ We welcome contributions! If you have ideas for improvements or new features, fe
 
 This project is licensed under the [MIT License](LICENSE).
 
-Thank you for using and contributing to the Realtime Chat Application!
+Thank you for using and contributing to this Chat Application 😁🙏
