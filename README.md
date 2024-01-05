@@ -64,20 +64,23 @@ Welcome to the GuffGaff Hub! This project is a full-fledged messaging applicatio
 
 7. **ScreenShots**
 
-   ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/login.png)
+ ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/login.png)
     <br/>
 
-   ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/landing.png)
+ ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/landing.png)
 
    <br/>
-   ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/profile.png)
-   
 
-   ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/group.png)
+![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/profile.png)
 
-   ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/chat.png)
-
-   ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/logout.png)
+   <br/>
+ ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/group.png)
+  <br/>
+  
+![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/chat.png)
+  <br/>
+  
+![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/logout.png)
 
 
 ## Contribution Guidelines
@@ -88,4 +91,4 @@ We welcome contributions! If you have ideas for improvements or new features, fe
 
 This project is licensed under the [MIT License](LICENSE).
 
-Thank you for using and contributing to the Realtime Chat Application!
+Thank you for using and contributing to this Chat Application 😁🙏
