@@ -24,7 +24,7 @@ public class Message {
 	
 	private LocalDateTime timestamp;
 	
-	@ManyToOne      // user can create multiple messages. thats why many to one
+	@ManyToOne      // user can create multiple messages. that's why many to one
 	private User user;
 	
 	@ManyToOne

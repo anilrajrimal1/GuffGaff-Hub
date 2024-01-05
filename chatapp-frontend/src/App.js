@@ -14,7 +14,6 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/profile' element={<Profile />} />
 
-
       </Routes>
     </div>
   );

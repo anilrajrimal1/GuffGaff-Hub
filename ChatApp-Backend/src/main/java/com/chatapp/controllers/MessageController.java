@@ -63,7 +63,7 @@ public class MessageController {
 		
 		 messageService.deleteMessage(messageId, user);
 		 
-		 ApiResponse apiResponse = new ApiResponse("Message deteted succesfuly -----", true);
+		 ApiResponse apiResponse = new ApiResponse("Message deleted successfully -----", true);
 		
 		return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
 		
