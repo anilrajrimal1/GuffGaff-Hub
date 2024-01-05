@@ -112,19 +112,11 @@ const Homepage = () => {
         setQuery("");
     }
 
-
-
     const handleCreateNewMessage = () => {
         dispatch(createMessage({ token, data: { chatId: currentChat.id, content: content } }));
       //  console.log("message created..", content);
 
     }
-
-const handleCreateNewMessageAndClearContent = () => {
-  handleCreateNewMessage();
-  setcontent('');
-};
-
 
     const HandleNavigate = () => {
         //  navigate('/profile');
@@ -191,7 +183,7 @@ const handleCreateNewMessageAndClearContent = () => {
    // console.log("UI Refreshed :: ", auth, chat, message);
 
     /*  console.log("users chat log", chat.chats);
-  
+
       function logChatInformation() {
           if (chat.chats.length > 0 && !query && chat.chats) {
               chat.chats.forEach((item) => {
@@ -199,7 +191,7 @@ const handleCreateNewMessageAndClearContent = () => {
               });
           }
       }
-  
+
       useEffect(() => {
           logChatInformation();
       }, []);  */
@@ -287,11 +279,9 @@ const handleCreateNewMessageAndClearContent = () => {
                                     <div>
                                         <BsFilter className='ml-4 text-3xl' />
                                     </div>
-
                                 </div>
 
                                 <div className='bg-white overflow-y-auto h-[70vh] px-3'>
-
                                     {query && auth.searchUser.map((item) => (
                                         <div onClick={() => HandleClickOnChat(item.id)}>
                                             <hr />
