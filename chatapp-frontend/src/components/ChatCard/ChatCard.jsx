@@ -25,7 +25,6 @@ const ChatCard = ({ userImg, name, lastMessage }) => {
             {lastMessage ? lastMessage.content : ""}
           </p>
           <div className="flex space-x-2">
-            <span className="text-gray-500 text-xs">3h</span>
             <span className="bg-green-500 h-2 w-2 rounded-full"></span>
           </div>
         </div>
