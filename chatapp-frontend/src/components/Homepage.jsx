@@ -17,7 +17,6 @@ import { createMessage, getAllMessages } from '../Redux/Message/Action';
 import SockJS from 'sockjs-client';
 import { over } from 'stompjs';
 
-
 const Homepage = () => {
     const navigate = useNavigate();
     const [query, setQuery] = useState('');
@@ -46,7 +45,6 @@ const Homepage = () => {
 
         temp.connect(headers, onConnect, onError)
 
-        
     }
 
     function getcookies(name) {
@@ -75,9 +73,6 @@ const Homepage = () => {
         }
     }, [message.newMessage]);
 
-
-
-
     const onMessageReceiver = (payload) => {
         console.log("Received Messages::::::::::::", JSON.parse(payload.body));
 
@@ -97,8 +92,6 @@ const Homepage = () => {
     }
 }, []);
 
-    
-
     useEffect(() => {
         connect();
     }, [])
@@ -106,12 +99,6 @@ const Homepage = () => {
     useEffect(() => {
        setMessages(message.messages)
     }, [message.messages]);
-    
-
-    
-
-
-
 
 
     const handleSearch = (keyword) => {
@@ -217,15 +204,6 @@ const handleCreateNewMessageAndClearContent = () => {
           logChatInformation();
       }, []);  */
 
-
-
-
-
-
-
-
-
-
     return (
         <>
             <div className='relative'>
@@ -274,8 +252,6 @@ const handleCreateNewMessageAndClearContent = () => {
                                                 aria-expanded={open ? 'true' : undefined}
                                                 onClick={handleClick} />
 
-
-
                                             <Menu
                                                 id="basic-menu"
                                                 anchorEl={anchorEl}
@@ -294,8 +270,6 @@ const handleCreateNewMessageAndClearContent = () => {
 
                                     </div>
                                 </div>
-
-
 
                                 <div className='relative flex justify-center items-center bg-white py-4 px-3'>
                                     <input
@@ -413,8 +387,7 @@ const handleCreateNewMessageAndClearContent = () => {
                                     </div>
                                 </div>
 
-                                {/* Footer for sending semmsages  */}
-
+                                {/* Footer for sending messages  */}
                                 <div className='footer h-12 bg-[#f0f2f5] absolute bottom w-full py-2'>
                                     <div className='flex justify-between items-center px-10'>
                                         <ImAttachment className='cursor-pointer' />
@@ -436,18 +409,12 @@ const handleCreateNewMessageAndClearContent = () => {
                                         />
                                     </div>
                                 </div>
-
                             </div>
                         }
-
-
                     </div>
-
                 </div>
             </div>
         </>
-
     )
 }
-
 export default Homepage
