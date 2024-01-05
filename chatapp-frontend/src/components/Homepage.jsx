@@ -32,6 +32,7 @@ const Homepage = () => {
     const [stompClient, setStompClient] = useState();
     const [isConnected, setIsConnected] = useState(false);
     const [messages, setMessages] = useState([]);
+    const [lastMessages, setLastMessages] = useState({});
 
     const connect = () => {
         const socket = new SockJS("http://localhost:8080/ws");
@@ -42,36 +43,41 @@ const Homepage = () => {
             Authorization: `Bearer ${token}`,
             "X-XSRF-TOKEN": getcookies("XSRF-TOKEN")
         }
-
+    // Connect to WebSocket server
         temp.connect(headers, onConnect, onError)
 
     }
-
+ // Function to get a specific cookie by name
     function getcookies(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(` ; ${name}=`);
-
         if (parts.length === 2) {
-            return parts.pop.split(";").shift();
+            return parts.pop().split(";").shift();
         }
     }
-
+  // Callback for WebSocket connection error
     const onError = (error) => {
         console.log("On Error : ", error)
     }
-
+  // Callback for successful WebSocket connection
     const onConnect = () => {
         console.log("WebSocket Connected :: ");
         setIsConnected(true);
     }
-
+  // Effect to handle incoming new messages from WebSocket
     useEffect(() => {
-
         if (message.newMessage && stompClient) {
             setMessages([...messages, message.newMessage]);
             stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
         }
     }, [message.newMessage]);
+
+  // Effect to set the messages state from the store
+  useEffect(() => {
+    if (message.messages) {
+      setMessages(message.messages);
+    }
+  }, [message.messages]);
 
     const onMessageReceiver = (payload) => {
         console.log("Received Messages::::::::::::", JSON.parse(payload.body));
@@ -90,7 +96,7 @@ const Homepage = () => {
             subscription.unsubscribe();
         };
     }
-}, []);
+}, [isConnected, stompClient, auth.reqUser, currentChat]);
 
     useEffect(() => {
         connect();
@@ -143,7 +149,6 @@ const Homepage = () => {
         navigate("/signin")
 
     };
-
     const HandleCurrentChat = (item) => {
         setcurrentChat(item);
     }
@@ -177,24 +182,19 @@ const Homepage = () => {
             navigate("/");
         }
     }, [auth.reqUser, navigate]);
-
     console.log("Messages ",messages);
 
-   // console.log("UI Refreshed :: ", auth, chat, message);
-
-    /*  console.log("users chat log", chat.chats);
-
-      function logChatInformation() {
-          if (chat.chats.length > 0 && !query && chat.chats) {
-              chat.chats.forEach((item) => {
-                  console.log("items", item);
-              });
-          }
-      }
-
+      // Effect to update lastMessages when messages change
       useEffect(() => {
-          logChatInformation();
-      }, []);  */
+        const prevLastMessages = lastMessages;
+        if (message.messages && message.messages.length > 0) {
+          message.messages?.forEach((msg) => {
+            prevLastMessages[msg.chat.id] = msg;
+          });
+
+          setLastMessages(prevLastMessages);
+        }
+      }, [message.messages]);
 
     return (
         <>
@@ -218,10 +218,7 @@ const Homepage = () => {
                         {/* Home */}
                         {!isprofile && !isGroup &&
                             <div className='w-full'>
-
-
                                 < div className='flex justify-between items-center p-3'>
-
                                     <div onClick={HandleNavigate} className='flex items-center space-x-3'>
                                         <img
                                             className='rounded-full w-12 h-12 cursor-pointer'
@@ -236,8 +233,6 @@ const Homepage = () => {
                                     {/*   <TbCircleDashed className='cursor-pointer' onClick={() => navigate("/status")} />
                                         <BiCommentDetail /> */}
                                         <div>
-
-
                                             <BsThreeDotsVertical id="basic-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
                                                 aria-haspopup="true"
@@ -282,21 +277,31 @@ const Homepage = () => {
                                 </div>
 
                                 <div className='bg-white overflow-y-auto h-[70vh] px-3'>
-                                    {query && auth.searchUser.map((item) => (
-                                        <div onClick={() => HandleClickOnChat(item.id)}>
+                                    {query && auth.searchUser.map((item, index) => (
+                                        <div key = {index} onClick={() => HandleClickOnChat(item.id)}>
                                             <hr />
-                                            <ChatCard name={item.fullName} userImg={item.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} />
+                                            <ChatCard name={item.fullName} userImg={item.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
+                                            lastMessage={{
+                                            content:
+                                            lastMessages[item.id]?.content || "Start your conversation",
+                                            timestamp: lastMessages[item.id]?.timestamp || "",}}
+                                            />
                                         </div>
                                     ))}
 
-                                    {chat.chats.length > 0 && !query && chat.chats?.map((item) => (
+                                    {chat.chats.length > 0 && !query && chat.chats?.map((item, index) => (
                                         <div onClick={() => HandleCurrentChat(item)} key={item.id}>
                                             <hr />
                                             {item.group ? (
-
                                                 <ChatCard
                                                     name={item.chatName}
                                                     userImg={item.chatImg || "https://cdn.pixabay.com/photo/2017/11/10/05/46/group-2935521_1280.png"}
+                                                    lastMessage={{
+                                                    content:
+                                                    lastMessages[item.id]?.content ||
+                                                    "Start your conversation",
+                                                    timestamp: lastMessages[item.id]?.timestamp || "",
+                                                    }}
                                                 />
                                             ) : (
                                                 <ChatCard
@@ -309,6 +314,12 @@ const Homepage = () => {
                                                             ? item.users[0].profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                                                             : item.users[1].profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                                                     }
+                                                    lastMessage={{
+                                                    content:
+                                                    lastMessages[item.id]?.content ||
+                                                    "Start your conversation",
+                                                    timestamp: lastMessages[item.id]?.timestamp || "",
+                                                    }}
                                                 />
                                             )}
                                         </div>
