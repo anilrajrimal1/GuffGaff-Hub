@@ -30,7 +30,7 @@ Welcome to the GuffGaff Hub! This project is a full-fledged messaging applicatio
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/realtime-chat-app.git
+   git clone https://github.com/anilrajrimal1/GuffGaff-Hub.git
    ```
 
 2. **Navigate to Frontend and Install Dependencies:**
