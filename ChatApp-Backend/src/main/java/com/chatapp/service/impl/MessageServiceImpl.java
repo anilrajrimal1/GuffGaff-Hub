@@ -79,6 +79,4 @@ public class MessageServiceImpl implements MessageService {
 			throw new UserException("You can't delete another user's message: " + reqUser.getFullName());
 		}
 	}
-
-
 }
