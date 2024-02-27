@@ -11,7 +11,7 @@ const SignIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = localStorage.getItem("token");
-    const {auth} = useSelector(store=>store);
+    const {auth} = useSelector((store)=>store);
 
 
     useEffect(() => {
@@ -45,12 +45,13 @@ const SignIn = () => {
         e.preventDefault();
         console.log("form Submitted");
         dispatch(loginUser(inputData));
+        setOpenSnackBar(true);
     };
 
     const handleChange = (e) => {
         const {name, value} = e.target;
         setInputData((values)=>({...values,[name]:value }));
-    }
+    };
 
     const handleSnackBarClose = ()=>{
         setOpenSnackBar(false);
@@ -59,10 +60,10 @@ const SignIn = () => {
     useEffect(() => {
         console.log("UseEffect 1 : Signin");
         if (token) {
-            console.log("dispatching currentuser with token :: "+token);
+            console.log("dispatching current user with token :: "+token);
             dispatch(currentUser(token));
         }
-    }, [token]);
+    }, [token, dispatch]);
 
 
     useEffect(() => { 
@@ -79,13 +80,13 @@ const SignIn = () => {
             navigate("/");
         }
 
-        console.log("we dont have authuser :: " +auth);
-    }, [auth.reqUser]);
+        console.log("No Authentication User :: " +auth);
+    }, [auth.reqUser, auth, navigate]);
 
 
     return (
         <div>
-            <div className='flex justify-center h-screen items-center'>
+            <div className='flex justify-center h-screen w-[100vw] items-center'>
                 <div className='w-[30%] p-10 shadow-md bg-white'>
 
                     <form onSubmit={handleSubmit} className='space-y-5'>
@@ -113,12 +114,11 @@ const SignIn = () => {
 
             <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose}>
                 <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
-                    Login Successful!
+                    Login Successfully!
                 </Alert>
             </Snackbar>
-
         </div>
-    )
-}
+    );
+};
 
-export default SignIn
+export default SignIn;

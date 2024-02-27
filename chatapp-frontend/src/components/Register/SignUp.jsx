@@ -22,7 +22,7 @@ const SignUp = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setOpenSnackBar(true);
-        console.log("form Sumitted ", inputData);
+        console.log("form Submitted ", inputData);
         dispatch(register(inputData))
     };
 
@@ -44,7 +44,7 @@ const SignUp = () => {
 
     return (
         <div>
-            <div className='flex flex-col justify-center min-h-screen items-center'>
+            <div className='flex flex-col justify-center min-h-screen w-[100vw] items-center'>
                 <div className='w-[30%] p-10 shadow-md bg-white'>
 
                     <form onSubmit={handleSubmit} className='space-y-5'>
@@ -67,7 +67,7 @@ const SignUp = () => {
                     </form>
 
                     <div className='flex space-x-3 items-center mt-5'>
-                        <p className='m-0'> Already have account ? </p>
+                        <p className='m-0'> Already Have an Account ? </p>
                         <Button className='' variant='text' onClick={() => navigate("/signin")}>Login</Button>
                     </div>
 
@@ -76,7 +76,7 @@ const SignUp = () => {
 
             <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose}>
                 <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
-                    Account Created Successfully !
+                    Your account has been successfully created!!
                 </Alert>
             </Snackbar>
         </div>

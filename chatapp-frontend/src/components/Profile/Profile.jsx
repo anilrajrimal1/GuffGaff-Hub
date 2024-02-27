@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BsArrowLeft, BsCheck, BsCheck2, BsPencil } from 'react-icons/bs';
+import { BsArrowLeft, BsCheck2, BsPencil } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateUser } from '../../Redux/Auth/Action';
@@ -17,6 +17,7 @@ const Profile = ({HandleCloseOpenProfile}) => {
     const HandleFlag =()=>{
         setFlag(true);
     }
+
 
     const HandleCheck = () =>{
         

@@ -1,6 +1,5 @@
 import { BASE_API_URL } from "../../Config/Config"
-import { CREATE_CHAT, CREATE_GROUP, GET_ALL_CHAT } from "./ActionType";
-
+import { CREATE_CHAT, CREATE_GROUP, GET_ALL_CHAT, DELETE_GROUP } from "./ActionType";
 
 export const createChat =(chatData) => async (dispatch) =>{
     console.log("chatdata", chatData);
@@ -59,3 +58,26 @@ export const createGroupChat =(chatData) => async (dispatch) =>{
             console.log("Something went wrong in chat Action (CreateGroupChat) :: UI Error :: ", error);
         }
         }
+
+    export const deleteGroup = (groupId, token) => async (dispatch) => {
+      try {
+        const res = await fetch(`${BASE_API_URL}/api/chats/group/${groupId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        console.log("Delete Group Server Response :: ", data);
+
+        // Store the deleted groupId in localStorage
+        localStorage.setItem('deletedGroupId', groupId);
+
+        // Dispatch action to update Redux state
+        dispatch({ type: DELETE_GROUP, payload: groupId });
+      } catch (error) {
+        console.log("Something went wrong in chat Action (deleteGroup) :: UI Error :: ", error);
+      }
+    };

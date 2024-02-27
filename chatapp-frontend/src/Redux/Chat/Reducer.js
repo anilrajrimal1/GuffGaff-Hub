@@ -1,24 +1,30 @@
-import { CREATE_CHAT, CREATE_GROUP, GET_ALL_CHAT } from "./ActionType"
+import { CREATE_CHAT, CREATE_GROUP, GET_ALL_CHAT, DELETE_GROUP } from "./ActionType";
 
 const initialValue = {
-    chats:[],
-    createdGroup:null,
-    createdChat:null,
-    
+  chats: [],
+  createdGroup: null,
+  createdChat: null,
+};
 
-}
+export const chatReducer = (state = initialValue, { type, payload }) => {
+  switch (type) {
+    case CREATE_CHAT:
+      return { ...state, createdChat: payload };
 
+    case CREATE_GROUP:
+      return { ...state, createdGroup: payload };
 
-export const chatReducer=(store=initialValue, {type,payload}) =>{
+    case GET_ALL_CHAT:
+      return { ...state, chats: payload };
 
-    if(type===CREATE_CHAT){
-        return{ ...store,createdChat:payload }
-    }
-    else if(type===CREATE_GROUP){
-        return{ ...store,createdGroup:payload }
-    }
-    else  if(type===GET_ALL_CHAT){
-        return{ ...store,chats:payload }
-    }
-    return store;
-}
+    case DELETE_GROUP:
+          return {
+            ...state,
+            chats: state.chats.filter((chat) => (chat.group && chat.id !== payload) || !chat.group),
+            deletedGroupId: payload,
+          };
+
+    default:
+      return state;
+  }
+};

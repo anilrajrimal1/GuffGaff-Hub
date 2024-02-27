@@ -81,7 +81,7 @@ public class ChatServiceImpl implements ChatService {
 			group.getUsers().add(usersToAddGroup);
 		}
 		
-		System.out.println("Senidng data into database final checkout: "+group);
+		System.out.println("Sending data into database final checkout: "+group);
 		
 		Chat savedChats = chatRepository.save(group);
 		
@@ -103,7 +103,7 @@ public class ChatServiceImpl implements ChatService {
 				return chatRepository.save(chat);
 			}
            else {
-			throw new UserException("U dont have access to add members in group");
+			throw new UserException("You do not have access to add members in group");
 		}
 		}
 		
@@ -119,7 +119,7 @@ public class ChatServiceImpl implements ChatService {
 				chat.setChatName(groupName);
 				chatRepository.save(chat);
 			}
-			throw new UserException("you are not member of this group");
+			throw new UserException("You are not member of this group");
 		}
 		
 		throw new ChatException("Group not found with Group ID :: "+chatId);
@@ -155,16 +155,27 @@ public class ChatServiceImpl implements ChatService {
          throw new ChatException("chat not found with id :: "+chatId);
          
 	}
-	
+
 
 	@Override
 	public void deleteChat(Integer chatId, Integer userId) throws UserException, ChatException {
-		 Optional<Chat> chat = chatRepository.findById(chatId);
-		 
-		 if(chat.isEmpty()) {
-			 Chat chatHistory=chat.get();
-			 chatRepository.deleteById(chatHistory.getId());
-		 }
+		Optional<Chat> chatOptional = chatRepository.findById(chatId);
+
+		if (chatOptional.isPresent()) {
+			Chat chat = chatOptional.get();
+
+			// Check if the user has permission to delete the chat
+			if (chat.getUsers().stream().anyMatch(user -> user.getId().equals(userId))) {
+				// perform any additional checks, if needed, before deletion
+				chatRepository.deleteById(chat.getId());
+			} else {
+				// User doesn't have permission to delete this chat
+				throw new UserException("You don't have permission to delete this chat.");
+			}
+		} else {
+			// Handle the case where the chat with the given ID is not found
+			throw new ChatException("Chat not found with ID: " + chatId);
+		}
 	}
 
 }

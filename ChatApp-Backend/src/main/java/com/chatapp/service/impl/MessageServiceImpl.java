@@ -68,13 +68,17 @@ public class MessageServiceImpl implements MessageService {
 	}
 
 	@Override
-	public void deleteMessage(Integer messageId, User reqUser) throws MessageException , UserException{
-       Message message = findMessageById(messageId);
-       
-       if(message.getUser().getId().equals(reqUser.getId())) {
-    	   messageRepository.deleteById(messageId);
-       }
-       throw new UserException("you cant delete another users message  :: "+reqUser.getFullName());
+	public void deleteMessage(Integer messageId, User reqUser) throws MessageException, UserException {
+		Message message = findMessageById(messageId);
+
+		if (message.getUser().getId().equals(reqUser.getId())) {
+			// Perform any additional checks, if needed, before deletion
+			messageRepository.deleteById(messageId);
+		} else {
+			// Throw an exception if the user doesn't have permission to delete the message
+			throw new UserException("You can't delete another user's message: " + reqUser.getFullName());
+		}
 	}
+
 
 }

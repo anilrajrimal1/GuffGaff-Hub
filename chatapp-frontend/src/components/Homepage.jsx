@@ -13,6 +13,7 @@ import CreateGroup from './Group/CreateGroup';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentUser, logoutUser, searchUser } from '../Redux/Auth/Action';
 import { createChat, getUserChat } from '../Redux/Chat/Action';
+import { deleteGroup } from '../Redux/Chat/Action';
 import { createMessage, getAllMessages } from '../Redux/Message/Action';
 import SockJS from 'sockjs-client';
 import { over } from 'stompjs';
@@ -33,7 +34,11 @@ const Homepage = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [messages, setMessages] = useState([]);
     const [lastMessages, setLastMessages] = useState({});
+    const [groupMenuOpen, setGroupMenuOpen] = useState(false);
+    const [groupMenuAnchorEl, setGroupMenuAnchorEl] = useState(null);
+    const [deletedGroupId, setDeletedGroupId] = useState(null);
 
+// Function to establish a WebSocket connection
     const connect = () => {
         const socket = new SockJS("http://localhost:8080/ws");
         const temp = over(socket);
@@ -41,33 +46,38 @@ const Homepage = () => {
 
         const headers = {
             Authorization: `Bearer ${token}`,
-            "X-XSRF-TOKEN": getcookies("XSRF-TOKEN")
-        }
+            "X-XSRF-TOKEN": getCookie("XSRF-TOKEN")
+        };
     // Connect to WebSocket server
-        temp.connect(headers, onConnect, onError)
+        temp.connect(headers, onConnect, onError);
+    };
 
-    }
+
  // Function to get a specific cookie by name
-    function getcookies(name) {
+    function getCookie(name) {
         const value = `; ${document.cookie}`;
-        const parts = value.split(` ; ${name}=`);
+        const parts = value.split(`; ${name}=`);
         if (parts.length === 2) {
             return parts.pop().split(";").shift();
         }
     }
+
+
   // Callback for WebSocket connection error
     const onError = (error) => {
-        console.log("On Error : ", error)
-    }
+        console.log("WebSocket Connection Error: ", error);
+    };
   // Callback for successful WebSocket connection
     const onConnect = () => {
-        console.log("WebSocket Connected :: ");
+        console.log("WebSocket Connected ");
         setIsConnected(true);
-    }
+    };
+
+
   // Effect to handle incoming new messages from WebSocket
     useEffect(() => {
         if (message.newMessage && stompClient) {
-            setMessages([...messages, message.newMessage]);
+            console.log("Sending message:", message.newMessage);
             stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
         }
     }, [message.newMessage]);
@@ -79,13 +89,15 @@ const Homepage = () => {
     }
   }, [message.messages]);
 
+    // Callback to handle received messages from WebSocket
     const onMessageReceiver = (payload) => {
-        console.log("Received Messages::::::::::::", JSON.parse(payload.body));
+        console.log("Received Message:", JSON.parse(payload.body));
 
         const receivedMessage = JSON.parse(payload.body);
-        setMessages([...messages, receivedMessage])
-    }
+        setMessages((messages) => [...messages, receivedMessage]);
+    };
 
+// Effect to subscribe to a group chat when connected to WebSocket
     useEffect(() => {
     if (isConnected && stompClient && auth.reqUser && currentChat) {
         const subscription = stompClient.subscribe(
@@ -96,46 +108,52 @@ const Homepage = () => {
             subscription.unsubscribe();
         };
     }
-}, [isConnected, stompClient, auth.reqUser, currentChat]);
+}, [isConnected, stompClient, auth.reqUser, currentChat, onMessageReceiver]);
 
+// Effect to establish a WebSocket connection
     useEffect(() => {
         connect();
-    }, [])
+    }, []);
+
 
     useEffect(() => {
        setMessages(message.messages)
     }, [message.messages]);
 
-
+ // Function to handle user search
     const handleSearch = (keyword) => {
-
         dispatch(searchUser({ keyword, token }));
     }
 
+// Function to handle clicking on a chat card
     const HandleClickOnChat = (userId) => {
-        // setcurrentChat(true);
         dispatch(createChat({ token, data: { userId } }));
         setQuery("");
     }
 
+  // Function to create a new message
     const handleCreateNewMessage = () => {
-        dispatch(createMessage({ token, data: { chatId: currentChat.id, content: content } }));
-      //  console.log("message created..", content);
+        dispatch(createMessage({ token, data: { chatId: currentChat.id, content: content } })
+        );
+        }
 
-    }
-
+ // Function to navigate to the user's profile
     const HandleNavigate = () => {
         //  navigate('/profile');
         setisprofile(true);
     }
 
+// Function to close the user's profile
     const HandleCloseOpenProfile = () => {
         setisprofile(false);
     }
 
+// Function to handle opening the user menu
     const handleClick = (e) => {
         setAnchorEl(e.currentTarget);
     };
+
+// Function to handle closing the user menu
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -144,15 +162,16 @@ const Homepage = () => {
         setIsGroup(true);
     };
 
+// Function to handle user logout
     const handleLogOut = () => {
         dispatch(logoutUser());
-        navigate("/signin")
-
+        navigate("/signin");
     };
+
     const HandleCurrentChat = (item) => {
         setcurrentChat(item);
     }
-
+// Effect to get user chats and groups
     useEffect(() => {
        // console.log('getting your chats');
         dispatch(getUserChat({ token }))
@@ -194,7 +213,37 @@ const Homepage = () => {
 
           setLastMessages(prevLastMessages);
         }
-      }, [message.messages]);
+      }, [message.messages, lastMessages]);
+
+
+const handleGroupMenuClick = (event) => {
+    setGroupMenuAnchorEl(event.currentTarget);
+    setGroupMenuOpen(true);
+  };
+
+  const handleGroupMenuClose = () => {
+    setGroupMenuAnchorEl(null);
+    setGroupMenuOpen(false);
+  };
+
+const handleDeleteCurrentGroup = (groupId) => {
+    // Your delete group logic
+    dispatch(deleteGroup(groupId, token));
+
+    // Update local state
+    setDeletedGroupId(groupId);
+
+    // Store in local storage or perform any additional cleanup as needed
+    localStorage.setItem('deletedGroupId', groupId);
+  };
+
+  // Effect to update deletedGroupId state when the deletedGroupId changes
+  useEffect(() => {
+    if (deletedGroupId) {
+      setDeletedGroupId(null);
+    }
+  }, [deletedGroupId]);
+
 
     return (
         <>
@@ -205,7 +254,8 @@ const Homepage = () => {
                 <div className='flex bg-[#f0f2f5] h-[90vh] absolute top-[5vh] left-[2vw] w-[96vw]'>
 
                     <div className='left w-[30%] h-full bg-[#e8e9ec]'>
-                        {/* profile added here  */}
+
+                        {/* Profile and Group Sections */}
                         {isGroup && <CreateGroup setIsGroup={setIsGroup} />}
 
                         {isprofile &&
@@ -215,8 +265,8 @@ const Homepage = () => {
 
                         }
 
-                        {/* Home */}
-                        {!isprofile && !isGroup &&
+                        {/* Home Section */}
+                        {!isprofile && !isGroup && (
                             <div className='w-full'>
                                 < div className='flex justify-between items-center p-3'>
                                     <div onClick={HandleNavigate} className='flex items-center space-x-3'>
@@ -230,14 +280,14 @@ const Homepage = () => {
                                     </div>
 
                                     <div className='space-x-3 text-2xl flex items-center'>
-                                    {/*   <TbCircleDashed className='cursor-pointer' onClick={() => navigate("/status")} />
-                                        <BiCommentDetail /> */}
                                         <div>
-                                            <BsThreeDotsVertical id="basic-button"
+                                            <BsThreeDotsVertical
+                                                id="basic-button"
                                                 aria-controls={open ? 'basic-menu' : undefined}
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
-                                                onClick={handleClick} />
+                                                onClick={handleClick}
+                                            />
 
                                             <Menu
                                                 id="basic-menu"
@@ -252,32 +302,31 @@ const Homepage = () => {
                                                 <MenuItem onClick={handleCreateGroup}>Create Group</MenuItem>
                                                 <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                                             </Menu>
-
                                         </div>
-
                                     </div>
                                 </div>
 
+                            {/* Search Bar */}
                                 <div className='relative flex justify-center items-center bg-white py-4 px-3'>
                                     <input
                                         className='border-none outline-none bg-slate-200 rounded-md w-[93%] pl-9 py-2'
                                         type='text'
-                                        placeholder='Search your chats'
+                                        placeholder='Search or Start new chat'
                                         onChange={(e) => {
                                             handleSearch(e.target.value)
                                             setQuery(e.target.value)
                                         }}
                                         value={query}
                                     />
-                                    <AiOutlineSearch className='left-5 top-7 absolute' />
-
+                                    <AiOutlineSearch className='left-5 top-8 absolute' />
                                     <div>
                                         <BsFilter className='ml-4 text-3xl' />
                                     </div>
                                 </div>
 
+                            {/* User and Group Chats */}
                                 <div className='bg-white overflow-y-auto h-[70vh] px-3'>
-                                    {query && auth.searchUser.map((item, index) => (
+                                    {query && auth.searchUser?.map((item, index) => (
                                         <div key = {index} onClick={() => HandleClickOnChat(item.id)}>
                                             <hr />
                                             <ChatCard name={item.fullName} userImg={item.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
@@ -289,7 +338,9 @@ const Homepage = () => {
                                         </div>
                                     ))}
 
-                                    {chat.chats.length > 0 && !query && chat.chats?.map((item, index) => (
+                                    {chat.chats?.length > 0 &&
+                                     !query &&
+                                     chat.chats?.map((item, index) => (
                                         <div onClick={() => HandleCurrentChat(item)} key={item.id}>
                                             <hr />
                                             {item.group ? (
@@ -305,12 +356,14 @@ const Homepage = () => {
                                                 />
                                             ) : (
                                                 <ChatCard
-                                                    name={auth.reqUser.id !== item.users[0].id
+                                                    isChat={true}
+                                                    name=
+                                                    {auth.reqUser?.id !== item.users[0]?.id
                                                         ? item.users[0].fullName
                                                         : item.users[1].fullName
                                                     }
                                                     userImg={
-                                                        auth.reqUser.id !== item.users[0].id
+                                                        auth.reqUser?.id !== item.users[0]?.id
                                                             ? item.users[0].profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                                                             : item.users[1].profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                                                     }
@@ -324,12 +377,12 @@ const Homepage = () => {
                                             )}
                                         </div>
                                     ))}
-
                                 </div>
                             </div>
-                        }
+                        )}
                     </div>
 
+                   {/* Default Landing Page */}
                     <div className='w-[70%]'>
                         {!currentChat &&
                             <div class='right flex items-center justify-center h-full'>
@@ -345,9 +398,8 @@ const Homepage = () => {
                             </div>
                         }
 
-                        { /* Show this part when am click on the card impl */}
-
-                        {currentChat &&
+                        { /* When clicked on Message Card */}
+                        {currentChat && (
                             <div className='w-full relative'>
 
                                 <div className='right header absolute top-0 w-full bg-[#f0f2f5]'>
@@ -371,19 +423,44 @@ const Homepage = () => {
 
                                         <div className='py-3 flex space-x-4  items-center px-3'>
 
-                                            <BsThreeDotsVertical />
-                                        </div>
+                                              <div>
+                                                                <BsThreeDotsVertical
+                                                                  id="group-menu"
+                                                                  aria-controls={groupMenuOpen ? 'group-menu' : undefined}
+                                                                  aria-haspopup="true"
+                                                                  aria-expanded={groupMenuOpen ? 'true' : undefined}
+                                                                  onClick={handleGroupMenuClick}
+                                                                />
 
-                                    </div>
-                                </div>
+                                                                <Menu
+                                                                  id="group-menu"
+                                                                  anchorEl={groupMenuAnchorEl}
+                                                                  open={groupMenuOpen}
+                                                                  onClose={handleGroupMenuClose}
+                                                                  MenuListProps={{
+                                                                    'aria-labelledby': 'group-menu',
+                                                                  }}
+                                                                >
+                                                                  <MenuItem onClick={() => handleDeleteCurrentGroup(currentChat.id)}>
+                                                                    Delete Group
+                                                                  </MenuItem>
+                                                                  {/* Add more group actions as needed */}
+                                                                </Menu>
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                     </div>
+
                                 {/* Message Section code  */}
-
                                 <div className='px-10 h-[85vh] overflow-y-auto bg-blue-500'>
                                     <div className='space-y-1 flex flex-col justify-center border-none mt-20 py-2'>
-                                        { messages?.map((item) => (
+                                        { messages?.length>0
+                                        && messages?.map((item, i) => (
                                             <MessageCard
+                                                key={i}
+                                                isReqUserMessage={item.user.id !== auth.reqUser.id}
                                                 content={item.content}
-                                                isReqUserMessage={item.user.id !== auth.reqUser.id} />
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -394,28 +471,32 @@ const Homepage = () => {
                                         <ImAttachment className='cursor-pointer' />
 
                                         <input className='py-2 outline-none border border-solid border-gray-500 bg-white pl-5 rounded-md w-[85%]'
-                                            type='text' onChange={(e) => setcontent(e.target.value)}
-                                            placeholder='Enter your message to send ' value={content} onKeyPress={(e) => {
+                                            type='text'
+                                            onChange={(e) => setcontent(e.target.value)}
+                                            placeholder="Type message"
+                                             value={content}
+                                             onKeyPress={(e) => {
                                                 if (e.key === "Enter") {
                                                     handleCreateNewMessage();
-                                                    setcontent('');
+                                                    setcontent("");
                                                 }
-                                            }} />
+                                            }}
+                                            />
                                         <FaTelegramPlane
                                           onClick={() => {
                                             handleCreateNewMessage();
-                                            setcontent('');
+                                            setcontent("");
                                           }}
                                           size={30}
                                         />
                                     </div>
                                 </div>
                             </div>
-                        }
+                        )}
                     </div>
                 </div>
             </div>
         </>
-    )
+    );
 }
 export default Homepage

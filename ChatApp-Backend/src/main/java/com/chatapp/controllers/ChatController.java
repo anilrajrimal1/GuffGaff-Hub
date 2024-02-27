@@ -95,7 +95,7 @@ public class ChatController {
 		User reqUser = userService.findUserByProfile(jwt);
 		 chatService.deleteChat(chatId, reqUser.getId());
 		 
-		 ApiResponse apiResponse = new ApiResponse("Chat Deleted Succesfully", true);
+		 ApiResponse apiResponse = new ApiResponse("Chat Deleted Successfully", true);
 	
 		return  new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
 	}
