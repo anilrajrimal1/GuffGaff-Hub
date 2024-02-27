@@ -23,7 +23,7 @@ public class TokenProvider {
         System.out.println("Generated token at time of creation :: " + key);
         
         String jwt = Jwts.builder()
-                .setIssuer("the_codebreaker")
+                .setIssuer("anilrajrimal")
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime() + 8640000)) // expire after 24hr
                 .claim("email", authentication.getName())
