@@ -19,12 +19,13 @@ Welcome to the GuffGaff Hub! This project is a full-fledged messaging applicatio
 
 ## Technologies Used
 
-- **Frontend:** React, Tailwind CSS
-- **Backend:** Spring Boot
+- **Frontend:** React, Tailwind CSS, Redux State Management
+- **Backend:** Java Spring Boot
 - **Database:** MySQL
 - **Authentication:** Spring Security, JWT
+- **Encryption:** Advanced Encryption Standard (AES)
 - **Image Upload:** Cloudinary
-- **Other Tools and Tech** Intellij IDEA
+- **Other Tools and Tech** IntelliJ IDEA
 
 ## Getting Started
 
