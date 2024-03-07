@@ -36,7 +36,7 @@ const SignUp = () => {
 
     useEffect(() => {
         if (auth.reqUser?.fullName) {
-            navigate("/");
+            navigate("/signin");
         }
     }, [auth, navigate]);
 
