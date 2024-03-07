@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to the GuffGaff Hub! This project is a full-fledged messaging application with a clean user interface. It enables users to exchange messages individually or within groups, view user statuses, and support image uploading. The project utilizes React for the front end with Tailwind CSS for styling, and the backend is powered by Spring Boot (JAVA), ensuring secure login using Spring Security with JWT-based authentication. Cloudinary is employed for image uploading and storage.
+GuffGaff Hub is a messaging app that keeps your messages super safe. It looks nice with React and Tailwind CSS on the front part, and it runs securely on the backend with Spring Boot (JAVA). Your login is extra secure using JWT. What's cool is that we added AES encryption to make sure your messages are private. Plus, you can share images smoothly thanks to Cloudinary. It's a friendly and secure place for your chats!
 ## Features
 
 - **Realtime Messaging:** Experience seamless, real-time messaging with instant delivery.
