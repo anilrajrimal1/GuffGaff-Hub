@@ -7,7 +7,7 @@ Welcome to the GuffGaff Hub! This project is a full-fledged messaging applicatio
 
 - **Realtime Messaging:** Experience seamless, real-time messaging with instant delivery.
 
-- **User Status:** Stay connected with friends by viewing their online or offline status.
+- **TimeStamp:** Know when your friend sent messages (full date and time).
 
 - **Group Creation:** Create groups for efficient communication and collaboration.
 
