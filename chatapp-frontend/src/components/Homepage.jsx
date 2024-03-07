@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { BsFilter, BsThreeDotsVertical } from 'react-icons/bs';
-import { FaTelegramPlane } from 'react-icons/fa';
+import { BsThreeDotsVertical } from 'react-icons/bs';
+import { BsTelegram } from 'react-icons/bs';
 import ChatCard from './ChatCard/ChatCard';
 import MessageCard from './MessageCard/MessageCard';
-import { ImAttachment } from "react-icons/im"
 import { useNavigate } from 'react-router-dom';
 import Profile from './Profile/Profile';
 import Menu from '@mui/material/Menu';
@@ -249,11 +248,11 @@ const handleDeleteCurrentGroup = (groupId) => {
         <>
             <div className='relative'>
 
-                <div className='w-full py-14 bg-[#63b8f9]'></div>
+                <div className='w-full py-14 bg-[#3CCAEC]'></div>
 
                 <div className='flex bg-[#f0f2f5] h-[90vh] absolute top-[5vh] left-[2vw] w-[96vw]'>
 
-                    <div className='left w-[30%] h-full bg-[#e8e9ec]'>
+                    <div className='left w-[30%] h-full bg-[#bcdef5]'>
 
                         {/* Profile and Group Sections */}
                         {isGroup && <CreateGroup setIsGroup={setIsGroup} />}
@@ -269,9 +268,9 @@ const handleDeleteCurrentGroup = (groupId) => {
                         {!isprofile && !isGroup && (
                             <div className='w-full'>
                                 < div className='flex justify-between items-center p-3'>
-                                    <div onClick={HandleNavigate} className='flex items-center space-x-3'>
+                                    <div onClick={HandleNavigate} className='flex items-center space-x-3 cursor-pointer'>
                                         <img
-                                            className='rounded-full w-12 h-12 cursor-pointer'
+                                            className='rounded-full w-14 h-14'
                                             src={auth.reqUser?.profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"}
                                             alt="profile"
                                         />
@@ -287,6 +286,7 @@ const handleDeleteCurrentGroup = (groupId) => {
                                                 aria-haspopup="true"
                                                 aria-expanded={open ? 'true' : undefined}
                                                 onClick={handleClick}
+                                                className='cursor-pointer'
                                             />
 
                                             <Menu
@@ -307,22 +307,21 @@ const handleDeleteCurrentGroup = (groupId) => {
                                 </div>
 
                             {/* Search Bar */}
-                                <div className='relative flex justify-center items-center bg-white py-4 px-3'>
-                                    <input
-                                        className='border-none outline-none bg-slate-200 rounded-md w-[93%] pl-9 py-2'
-                                        type='text'
-                                        placeholder='Search or Start new chat'
-                                        onChange={(e) => {
-                                            handleSearch(e.target.value)
-                                            setQuery(e.target.value)
-                                        }}
-                                        value={query}
-                                    />
-                                    <AiOutlineSearch className='left-5 top-8 absolute' />
-                                    <div>
-                                        <BsFilter className='ml-4 text-3xl' />
-                                    </div>
-                                </div>
+                                            <div className='relative flex justify-center items-center bg-white py-4 px-3'>
+                                              <div className='relative w-full'>
+                                                <input
+                                                  className='border-none outline-none bg-slate-200 rounded-md w-full pl-10 py-2 focus:ring focus:border-blue-300'
+                                                  type='text'
+                                                  placeholder='Search or Start new chat'
+                                                  onChange={(e) => {
+                                                    handleSearch(e.target.value);
+                                                    setQuery(e.target.value);
+                                                  }}
+                                                  value={query}
+                                                />
+                                                <AiOutlineSearch className='absolute left-3 top-3 text-gray-600' />
+                                              </div>
+                                            </div>
 
                             {/* User and Group Chats */}
                                 <div className='bg-white overflow-y-auto h-[70vh] px-3'>
@@ -368,9 +367,7 @@ const handleDeleteCurrentGroup = (groupId) => {
                                                             : item.users[1].profilePicture || "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                                                     }
                                                     lastMessage={{
-                                                    content:
-                                                    lastMessages[item.id]?.content ||
-                                                    "Start your conversation",
+                                                    content:lastMessages[item.id]?.content || "Start your conversation",
                                                     timestamp: lastMessages[item.id]?.timestamp || "",
                                                     }}
                                                 />
@@ -385,12 +382,13 @@ const handleDeleteCurrentGroup = (groupId) => {
                    {/* Default Landing Page */}
                     <div className='w-[70%]'>
                         {!currentChat &&
-                            <div class='right flex items-center justify-center h-full'>
+                            <div class='flex items-center justify-center h-full'>
                                 <div class='w-[70%] flex flex-col items-center justify-center h-full'>
                                     <div class='max-w-[70%] text-center'>
-                                        <img src="https://www.pngall.com/wp-content/uploads/10/Message-Silhouette-Background-PNG-Image.png" alt="profilepic main chat" class='h-[20rem] w-[20rem]' />
+                                        <img src="https://www.pngall.com/wp-content/uploads/10/Message-Silhouette-Background-PNG-Image.png"
+                                        alt="profilepic main chat"
+                                        class='h-[20rem] w-[20rem]' />
                                         <h1 class='text-4xl mt-5'>Welcome, {auth.reqUser?.fullName?.split(' ')[0]}</h1>
-
                                         <p class='text-gray-500 text-sm mt-5 '>Please Select any Chat to Continue</p>
 
                                     </div>
@@ -444,7 +442,6 @@ const handleDeleteCurrentGroup = (groupId) => {
                                                                   <MenuItem onClick={() => handleDeleteCurrentGroup(currentChat.id)}>
                                                                     Delete Group
                                                                   </MenuItem>
-                                                                  {/* Add more group actions as needed */}
                                                                 </Menu>
                                                               </div>
                                                             </div>
@@ -452,8 +449,8 @@ const handleDeleteCurrentGroup = (groupId) => {
                                                      </div>
 
                                 {/* Message Section code  */}
-                                <div className='px-10 h-[85vh] overflow-y-auto bg-blue-500'>
-                                    <div className='space-y-1 flex flex-col justify-center border-none mt-20 py-2'>
+                                <div className='px-10 h-[85vh] overflow-y-auto bg-white'>
+                                    <div className='flex flex-col space-y-2 mt-20 py-2'>
                                         { messages?.length>0
                                         && messages?.map((item, i) => (
                                             <MessageCard
@@ -466,28 +463,28 @@ const handleDeleteCurrentGroup = (groupId) => {
                                 </div>
 
                                 {/* Footer for sending messages  */}
-                                <div className='footer h-12 bg-[#f0f2f5] absolute bottom w-full py-2'>
-                                    <div className='flex justify-between items-center px-10'>
-                                        <ImAttachment className='cursor-pointer' />
-
-                                        <input className='py-2 outline-none border border-solid border-gray-500 bg-white pl-5 rounded-md w-[85%]'
+                                <div className='footer h-12 bg-[#f0f2f5] absolute bottom w-full py-1'>
+                                    <div className='flex items-center px-3'>
+                                        <input className='py-2 px-4 outline-none border border-solid border-gray-300
+                                        bg-white rounded-full w-full focus:ring focus:border-blue-300'
                                             type='text'
                                             onChange={(e) => setcontent(e.target.value)}
-                                            placeholder="Type message"
+                                            placeholder="Type your message"
                                              value={content}
                                              onKeyPress={(e) => {
                                                 if (e.key === "Enter") {
                                                     handleCreateNewMessage();
-                                                    setcontent("");
+                                                    setcontent('');
                                                 }
                                             }}
                                             />
-                                        <FaTelegramPlane
+                                        <BsTelegram
                                           onClick={() => {
                                             handleCreateNewMessage();
-                                            setcontent("");
+                                            setcontent('');
                                           }}
                                           size={30}
+                                          className='ml-3 cursor-pointer text-blue-500'
                                         />
                                     </div>
                                 </div>

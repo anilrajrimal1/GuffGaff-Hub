@@ -5,14 +5,14 @@
 }
 
 .sender {
-  align-self: flex-end;
-  background-color: #4caf50; /* Green for sender messages */
+  align-self: flex-start;
+  background-color: #d3d3d3; /* Green for sender messages */
   color: white;
 }
 
 .receiver {
-  align-self: flex-start;
-  background-color: #e0e0e0; /* Light gray for receiver messages */
+  align-self: flex-end;
+  background-color: #40ccec; /* Light gray for receiver messages */
 }
 
 .messageText {
