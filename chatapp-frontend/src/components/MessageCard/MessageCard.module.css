@@ -1,0 +1,23 @@
+.messageCard {
+  border-radius: 12px;
+  margin: 8px;
+  max-width: 70%;
+}
+
+.sender {
+  align-self: flex-end;
+  background-color: #4caf50; /* Green for sender messages */
+  color: white;
+}
+
+.receiver {
+  align-self: flex-start;
+  background-color: #e0e0e0; /* Light gray for receiver messages */
+}
+
+.messageText {
+  margin: 0;
+  font-size: 18px; /* Increased font size for better readability */
+  line-height: 1.5; /* Adjusted line height for improved spacing */
+  color: #333; /* Dark text color for improved contrast */
+}

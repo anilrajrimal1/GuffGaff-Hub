@@ -1,11 +1,15 @@
 import React from 'react';
+import styles from './MessageCard.module.css'; // Import your external CSS file
 
 const MessageCard = ({ customKey, isReqUserMessage, content }) => {
   return (
-    <div key={customKey} className={`py-2 px-2 rounded-md mx-w-[50%] ${isReqUserMessage ? "self-start bg-white" : "self-end bg-[#d3fdd3]"}`}>
-      <p>
-        {content}
-      </p>
+    <div
+      key={customKey}
+      className={`py-2 px-3 ${styles.messageCard} ${
+        isReqUserMessage ? styles.sender : styles.receiver
+      }`}
+    >
+      <p className={styles.messageText}>{content}</p>
     </div>
   );
 };

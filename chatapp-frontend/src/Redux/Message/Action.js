@@ -34,9 +34,9 @@ export const createMessage =(messageData) => async (dispatch) =>{
             })
               
             const data = await res.json();
-            console.log("getall message :: ", data);
+            console.log("get all message :: ", data);
             dispatch({type:GET_ALL_MESSAGE,payload:data});
         } catch (error) {
-            console.log("Something went wrong in MEssage Action (GetALLMESSAGES) :: UI Error :: ", error);
+            console.log("Something went wrong in Message Action (GetALLMESSAGES) :: UI Error :: ", error);
         }
         }

@@ -32,51 +32,47 @@ public class MessageServiceImpl implements MessageService {
 	@Override
 	public Message sentMessage(SendMessageReq req) throws UserException, ChatException {
 		
-		User user = userService.finyById(req.getUserId());
-		Chat chat = chatService.findChatById(req.getChatId());
+		User user = this.userService.finyById(req.getUserId());
+		Chat chat = this.chatService.findChatById(req.getChatId());
 		
 		Message message = new Message();
 		message.setChat(chat);
 		message.setUser(user);
 		message.setContent(req.getContent());
 		message.setTimestamp(LocalDateTime.now());
-		Message message2 = messageRepository.save(message); 
-		return message2;
+		message = this.messageRepository.save(message);
+		return message;
 	}
 
 	@Override
 	public List<Message> getChatsMessages(Integer chatId, User reqUser) throws ChatException, UserException {
-		Chat chat = chatService.findChatById(chatId);
+		Chat chat = this.chatService.findChatById(chatId);
 		
 		if(!chat.getUsers().contains(reqUser)) {
-			throw new UserException("U Cant get this message, U are not related to this chat. :: "+chat.getId());
+			throw new UserException("You are not related to this chat"+ chat.getId());
 		}
 		
-		List<Message> messages = messageRepository.findByChatId(chat.getId());
+		List<Message> messages = this.messageRepository.findByChatId(chat.getId());
 		
 		return messages;
 	}
 
 	@Override
 	public Message findMessageById(Integer messageId) throws MessageException {
-		Optional<Message> opt = messageRepository.findById(messageId);
-		
-		if(opt.isPresent()) {
-			return opt.get();
-		}
-		 throw new MessageException(" Message not found with Id :: "+messageId);
+		Message message = this.messageRepository.findById(messageId)
+				.orElseThrow(() -> new MessageException("The required message is not found"));
+		return message;
 	}
 
 	@Override
-	public void deleteMessage(Integer messageId, User reqUser) throws MessageException, UserException {
-		Message message = findMessageById(messageId);
+	public void deleteMessage(Integer messageId, User reqUser) throws MessageException {
+		Message message = this.messageRepository.findById(messageId)
+				.orElseThrow(() -> new MessageException("The required message is not found"));
 
 		if (message.getUser().getId().equals(reqUser.getId())) {
-			// Perform any additional checks, if needed, before deletion
-			messageRepository.deleteById(messageId);
-		} else {
-			// Throw an exception if the user doesn't have permission to delete the message
-			throw new UserException("You can't delete another user's message: " + reqUser.getFullName());
+			this.messageRepository.delete(message);
 		}
+
+		throw new MessageException("You are not authorized for this task");
 	}
 }

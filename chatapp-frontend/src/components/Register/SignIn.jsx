@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { currentUser, loginUser } from '../../Redux/Auth/Action';
-import { authReducer } from '../../Redux/Auth/Reducer';
 
 const SignIn = () => {
     const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -11,105 +10,59 @@ const SignIn = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = localStorage.getItem("token");
-    const {auth} = useSelector((store)=>store);
-
+    const { auth } = useSelector((store) => store);
 
     useEffect(() => {
-        console.log("UseEffect 1 : Signin");
         if (token) {
-            console.log("dispatching currentuser with token :: "+token);
             dispatch(currentUser(token));
         }
     }, [token, auth.reqUser, dispatch]);
 
-
-    useEffect(() => { 
-
-        console.log("Auth as JSON:", JSON.stringify(auth, null, 2));
-
-        console.log("UseEffect 2 : Signin");
-
-
+    useEffect(() => {
         if (auth.reqUser) {
-             
-            console.log("navigating on chat page :: " + auth);
             navigate("/");
         }
-
-        console.log("we dont have authuser :: " +auth);
     }, [auth, navigate]);
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("form Submitted");
         dispatch(loginUser(inputData));
         setOpenSnackBar(true);
     };
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
-        setInputData((values)=>({...values,[name]:value }));
+        const { name, value } = e.target;
+        setInputData((values) => ({ ...values, [name]: value }));
     };
 
-    const handleSnackBarClose = ()=>{
+    const handleSnackBarClose = () => {
         setOpenSnackBar(false);
-    }
-
-    useEffect(() => {
-        console.log("UseEffect 1 : Signin");
-        if (token) {
-            console.log("dispatching current user with token :: "+token);
-            dispatch(currentUser(token));
-        }
-    }, [token, dispatch]);
-
-
-    useEffect(() => { 
-
-        console.log("Auth as JSON:", JSON.stringify(auth, null, 2));
-
-        console.log("UseEffect 2 : Signin");
-
-
-        if (authReducer.reqUser?.fullName) {
-             
-            console.log("navigating on chat page :: " + auth);
-            setOpenSnackBar(true);
-            navigate("/");
-        }
-
-        console.log("No Authentication User :: " +auth);
-    }, [auth.reqUser, auth, navigate]);
-
+    };
 
     return (
-        <div>
-            <div className='flex justify-center h-screen w-[100vw] items-center'>
-                <div className='w-[30%] p-10 shadow-md bg-white'>
+        <div className='flex justify-center h-screen items-center'>
+            <div className='w-[400px] p-10 shadow-md bg-gray-200 rounded-md'>
 
-                    <form onSubmit={handleSubmit} className='space-y-5'>
-                        <div>
-                            <p className='mb-2'>Email</p>
-                            <input type="email" placeholder='Enter your email' name="email" onChange={handleChange} value={inputData.email} className='py-2 outline outline-blue-500 w-full rounded-md border' required />
-                        </div>
-                        <div>
-                            <p className='mb-2'>Password</p>
-                            <input type="password" placeholder='Enter your password' name="password" onChange={handleChange} value={inputData.password} className='py-2 outline outline-blue-600 w-full rounded-md border' required/>
-                        </div>
-
-                        <div>
-                            <Button className='w-full' variant='contained' type='submit' > Signin </Button>
-                        </div>
-                    </form>
-
-                    <div className='flex space-x-3 items-center mt-5'>
-                        <p className='m-0'> Don't have an Account ? </p>
-                        <Button className='' variant='text' onClick={() => navigate("/signup")}>Register</Button>
+                <form onSubmit={handleSubmit} className='space-y-5'>
+                    <div>
+                        <label className='mb-2 block text-gray-600'>Email</label>
+                        <input type="email" placeholder='Enter your email' name="email" onChange={handleChange} value={inputData.email} className='py-2 px-3 w-full outline-none border border-gray-400 rounded-md focus:border-blue-500' required />
+                    </div>
+                    <div>
+                        <label className='mb-2 block text-gray-600'>Password</label>
+                        <input type="password" placeholder='Enter your password' name="password" onChange={handleChange} value={inputData.password} className='py-2 px-3 w-full outline-none border border-gray-400 rounded-md focus:border-blue-500' required />
                     </div>
 
+                    <div>
+                        <Button className='w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300' variant='contained' type='submit'>Sign in</Button>
+                    </div>
+                </form>
+
+                <div className='flex items-center mt-5'>
+                    <p className='m-0 text-gray-600'>Don't have an Account?</p>
+                    <Button className='text-blue-500 hover:underline ml-1' variant='text' onClick={() => navigate("/signup")}>Register</Button>
                 </div>
+
             </div>
 
             <Snackbar open={openSnackBar} autoHideDuration={6000} onClose={handleSnackBarClose}>
@@ -120,5 +73,4 @@ const SignIn = () => {
         </div>
     );
 };
-
 export default SignIn;

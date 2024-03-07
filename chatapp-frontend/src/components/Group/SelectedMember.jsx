@@ -14,4 +14,3 @@ const SelectedMember = ({handleRemoveMember, member} ) => {
   };
   
   export default SelectedMember;
-  
