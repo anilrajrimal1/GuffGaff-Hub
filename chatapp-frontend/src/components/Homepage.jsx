@@ -77,7 +77,7 @@ const Homepage = () => {
     useEffect(() => {
         if (message.newMessage && stompClient) {
             console.log("Sending message:", message.newMessage);
-            stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
+            stompClient.send("/app/message", {}, JSON.stringify(message.newMessage));
         }
     }, [message.newMessage]);
 
