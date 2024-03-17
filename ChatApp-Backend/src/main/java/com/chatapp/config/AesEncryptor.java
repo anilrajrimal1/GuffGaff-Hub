@@ -28,14 +28,11 @@ public class AesEncryptor implements AttributeConverter<Object,String> {
 
         return key;
     }
-
-
     private Cipher getCipher() throws GeneralSecurityException {
         if (cipher==null)
             cipher=Cipher.getInstance(encryptionCipher);
         return cipher;
     }
-
     private void initCipher(int encryptMode) throws GeneralSecurityException {
         getCipher().init(encryptMode,getKey());
     }
