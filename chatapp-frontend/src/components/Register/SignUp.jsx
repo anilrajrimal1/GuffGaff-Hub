@@ -52,7 +52,7 @@ const SignUp = () => {
         >
             <div className='flex flex-col items-start justify-center w-[400px] p-10 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-md'>
                 <h1 className='text-5xl text-white font-semibold mb-5'>Sign Up</h1>
-                <p className='text-white mb-8'>Create a new account to get started.</p>
+                <p className='text-white mb-8'>Ready to chat? Sign up now and start connecting!</p>
             </div>
 
             <div className='w-[400px] p-10 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-md'>

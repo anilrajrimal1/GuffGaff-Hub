@@ -45,7 +45,7 @@ const Homepage = () => {
 
         const headers = {
             Authorization: `Bearer ${token}`,
-            "X-XSRF-TOKEN": getCookie("XSRF-TOKEN")
+            "X-XSRF-TOKEN": getCookies("XSRF-TOKEN")
         };
     // Connect to WebSocket server
         temp.connect(headers, onConnect, onError);
@@ -53,7 +53,7 @@ const Homepage = () => {
 
 
  // Function to get a specific cookie by name
-    function getCookie(name) {
+    function getCookies(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
         if (parts.length === 2) {
@@ -76,24 +76,17 @@ const Homepage = () => {
   // Effect to handle incoming new messages from WebSocket
     useEffect(() => {
         if (message.newMessage && stompClient) {
-            console.log("Sending message:", message.newMessage);
-            stompClient.send("/app/message", {}, JSON.stringify(message.newMessage));
-        }
-    }, [message.newMessage]);
-
-  // Effect to set the messages state from the store
-  useEffect(() => {
-    if (message.messages) {
-      setMessages(message.messages);
-    }
-  }, [message.messages]);
+                    setMessages([...messages, message.newMessage]);
+                    stompClient?.send("/app/message", {}, JSON.stringify(message.newMessage));
+                }
+            }, [message.newMessage]);
 
     // Callback to handle received messages from WebSocket
     const onMessageReceiver = (payload) => {
         console.log("Received Message:", JSON.parse(payload.body));
 
         const receivedMessage = JSON.parse(payload.body);
-        setMessages((messages) => [...messages, receivedMessage]);
+        setMessages([...messages, receivedMessage]);
     };
 
 // Effect to subscribe to a group chat when connected to WebSocket
@@ -138,7 +131,6 @@ const Homepage = () => {
 
  // Function to navigate to the user's profile
     const HandleNavigate = () => {
-        //  navigate('/profile');
         setisprofile(true);
     }
 
@@ -226,13 +218,8 @@ const handleGroupMenuClick = (event) => {
   };
 
 const handleDeleteCurrentGroup = (groupId) => {
-    // Your delete group logic
     dispatch(deleteGroup(groupId, token));
-
-    // Update local state
     setDeletedGroupId(groupId);
-
-    // Store in local storage or perform any additional cleanup as needed
     localStorage.setItem('deletedGroupId', groupId);
   };
 
@@ -247,8 +234,6 @@ const handleDeleteCurrentGroup = (groupId) => {
     return (
         <>
             <div className='relative'>
-
-                <div className='w-full py-14 bg-[#3CCAEC]'></div>
 
                 <div className='flex bg-[#f0f2f5] h-[90vh] absolute top-[5vh] left-[2vw] w-[96vw]'>
 
@@ -422,30 +407,30 @@ const handleDeleteCurrentGroup = (groupId) => {
                                         <div className='py-3 flex space-x-4  items-center px-3'>
 
                                               <div>
-                                                                <BsThreeDotsVertical
-                                                                  id="group-menu"
-                                                                  aria-controls={groupMenuOpen ? 'group-menu' : undefined}
-                                                                  aria-haspopup="true"
-                                                                  aria-expanded={groupMenuOpen ? 'true' : undefined}
-                                                                  onClick={handleGroupMenuClick}
-                                                                />
+                                                   <BsThreeDotsVertical
+                                                   id="group-menu"
+                                                   aria-controls={groupMenuOpen ? 'group-menu' : undefined}
+                                                   aria-haspopup="true"
+                                                   aria-expanded={groupMenuOpen ? 'true' : undefined}
+                                                   onClick={handleGroupMenuClick}
+                                                   />
 
-                                                                <Menu
-                                                                  id="group-menu"
-                                                                  anchorEl={groupMenuAnchorEl}
-                                                                  open={groupMenuOpen}
-                                                                  onClose={handleGroupMenuClose}
-                                                                  MenuListProps={{
-                                                                    'aria-labelledby': 'group-menu',
-                                                                  }}
-                                                                >
-                                                                  <MenuItem onClick={() => handleDeleteCurrentGroup(currentChat.id)}>
-                                                                    Delete Group
-                                                                  </MenuItem>
-                                                                </Menu>
-                                                              </div>
-                                                            </div>
-                                                        </div>
+                                                    <Menu
+                                                    id="group-menu"
+                                                    anchorEl={groupMenuAnchorEl}
+                                                    open={groupMenuOpen}
+                                                    onClose={handleGroupMenuClose}
+                                                    MenuListProps={{
+                                                    'aria-labelledby': 'group-menu',
+                                                    }}
+                                                     >
+                                                      <MenuItem onClick={() => handleDeleteCurrentGroup(currentChat.id)}>
+                                                        Delete Group
+                                                       </MenuItem>
+                                                       </Menu>
+                                                       </div>
+                                                       </div>
+                                                       </div>
                                                      </div>
 
                                 {/* Message Section code  */}

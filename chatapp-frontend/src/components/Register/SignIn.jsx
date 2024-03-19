@@ -51,7 +51,7 @@ const SignIn = () => {
         >
             <div className='flex flex-col items-start justify-center w-[400px] p-10 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-md'>
                 <h1 className='text-5xl text-white font-semibold mb-5'>Sign In</h1>
-                <p className='text-white mb-8'>Welcome back! Log in to access your account.</p>
+                <p className='text-white mb-8'>Ready to reconnect? Sign in now and join the conversation!</p>
             </div>
 
             <div className='w-[400px] p-10 bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-md'>
