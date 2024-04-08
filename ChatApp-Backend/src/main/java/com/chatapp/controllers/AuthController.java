@@ -37,36 +37,30 @@ public class AuthController {
 	
 	@Autowired
 	private CustomUserService customUserService;
-	
+
 	@PostMapping("/signup")
-	public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws UserException {
+	public ResponseEntity<String> createUserHandler(@RequestBody User user) throws UserException {
 		String email = user.getEmail();
 		String password = user.getPassword();
 		String fullName = user.getFullName();
-		
-		User isUser=userRepository.findByEmail(email);
-		if(isUser!=null) {
-			throw new UserException("Account already exist with email :: "+email);
+
+		User isUser = userRepository.findByEmail(email);
+		if (isUser != null) {
+			throw new UserException("An account already exists with email: " + email);
 		}
-		
+
 		User createUser = new User();
 		createUser.setEmail(email);
 		createUser.setPassword(passwordEncoder.encode(password));
 		createUser.setFullName(fullName);
-		
+
 		userRepository.save(createUser);
-		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
-		
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
-		String jwt = tokenProvider.generateToken(authentication);
-		
-		AuthResponse res = new AuthResponse(jwt, true);
-		
-		return new ResponseEntity<AuthResponse>(res, HttpStatus.ACCEPTED);
+
+		// Return a success message indicating successful user creation
+		return ResponseEntity.ok("User created successfully");
 	}
-	
+
+
 	@PostMapping("/signin")
 	public ResponseEntity<AuthResponse> loginHandler(@RequestBody Loginreq req) {
 		String email = req.getEmail();

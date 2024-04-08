@@ -19,11 +19,12 @@ const SignUp = () => {
         }
     }, [token, auth.reqUser, dispatch]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setOpenSnackBar(true);
         console.log("Form Submitted", inputData);
-        dispatch(register(inputData));
+        await dispatch(register(inputData)); // Add await here
+        navigate("/signin");
     };
 
     const handleChange = (e) => {
