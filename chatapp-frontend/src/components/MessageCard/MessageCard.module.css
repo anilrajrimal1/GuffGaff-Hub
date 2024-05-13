@@ -1,6 +1,6 @@
 .messageCard {
-  border-radius: 12px;
-  margin: 8px;
+  border-radius: 14px;
+  margin: 10px;
   max-width: 70%;
 }
 
@@ -17,7 +17,7 @@
 
 .messageText {
   margin: 0;
-  font-size: 18px; /* Increased font size for better readability */
+  font-size: 21px; /* Increased font size for better readability */
   line-height: 1.5; /* Adjusted line height for improved spacing */
   color: #333; /* Dark text color for improved contrast */
 }
