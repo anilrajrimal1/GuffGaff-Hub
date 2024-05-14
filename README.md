@@ -92,4 +92,4 @@ We welcome contributions! If you have ideas for improvements or new features, fe
 
 This project is licensed under the [MIT License](LICENSE).
 
-Thank you for using and contributing to this Chat Application 😁🙏
+Thank you for using and contributing to this Web Chat Application 😁🙏
