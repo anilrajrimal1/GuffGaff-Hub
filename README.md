@@ -61,7 +61,7 @@ GuffGaff Hub is a messaging app that keeps your messages super safe. It looks ni
      ```
 
 6. **Access the Application:**
-   Open your browser and visit `http://localhost:3000` to use the Application.
+   Open your browser and go to `http://localhost:3000` to use the Application.
 
 7. **ScreenShots**
 
