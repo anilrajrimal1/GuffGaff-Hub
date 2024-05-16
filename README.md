@@ -86,7 +86,7 @@ GuffGaff Hub is a messaging app that keeps your messages super safe. It looks ni
 
 ## Contribution Guidelines
 
-We welcome contributions! If you have ideas for improvements or new features, feel free to open an issue or submit a pull request.
+We welcome contributions! If you have ideas for improvements or new features, feel free to open an ISSUE or submit a pull request(PR).
 
 ## License
 
