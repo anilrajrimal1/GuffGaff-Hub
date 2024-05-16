@@ -24,7 +24,7 @@ GuffGaff Hub is a messaging app that keeps your messages super safe. It looks ni
 - **Database:** MySQL Database
 - **Authentication:** Spring Security, JWT
 - **Encryption:** Advanced Encryption Standard (AES)
-- **Image Upload:** Cloudinary
+- **Image Upload:** Cloudinary for Storage
 - **Other Tools and Tech** IntelliJ IDEA
 
 ## Getting Started
