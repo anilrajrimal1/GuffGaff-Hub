@@ -19,7 +19,7 @@ GuffGaff Hub is a messaging app that keeps your messages super safe. It looks ni
 
 ## Technologies Used
 
-- **Frontend:** React, Tailwind CSS, Redux
+- **Frontend:** React, Tailwind CSS, Redux State Management
 - **Backend:** Java Spring Boot
 - **Database:** MySQL Database
 - **Authentication:** Spring Security, JWT
