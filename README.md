@@ -34,10 +34,10 @@ GuffGaff Hub is a messaging app that keeps your messages super safe. It looks ni
    git clone https://github.com/anilrajrimal1/GuffGaff-Hub.git
    ```
 
-2. **Navigate to Frontend and Install Dependencies:**
+2. **Navigate to Frontend Directory and Install Dependencies:**
    ```bash
    cd frontend
-   npm install
+   npm install or npm i
    ```
 
 3. **Navigate to Backend and Install Dependencies:**
@@ -48,7 +48,8 @@ GuffGaff Hub is a messaging app that keeps your messages super safe. It looks ni
 
 4. **Configure Environment Variables:**
    - Set up Cloudinary credentials.
-   - Configure Spring Boot application.properties for database and other configurations.
+   - make sure you use your own account for creating free cloudinary account
+   - Configure pplication.properties for database and other configurations.
 
 5. **Run the Application:**
    - Start the frontend:
@@ -61,9 +62,10 @@ GuffGaff Hub is a messaging app that keeps your messages super safe. It looks ni
      ```
 
 6. **Access the Application:**
-   Open your browser and go to `http://localhost:3000` to use the Application.
+   Open your browser and visit `http://localhost:3000` to use the Application.
+   The backend will be available on `http://localhost:8000`
 
-7. **ScreenShots**
+8. **ScreenShots**
 
  ![image](https://github.com/anilrajrimal1/GuffGaff-Hub/blob/master/login.png)
     <br/>
